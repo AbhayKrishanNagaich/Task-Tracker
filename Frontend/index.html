@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fallows - Task Tracker</title>
+  <link rel="stylesheet" href="style.cs" />
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">Fallows</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Tasks</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <header>
+      <h1>Task Tracker</h1>
+      <p>Stay productive. Stay organized.</p>
+    </header>
+
+    <section class="task-form">
+      <input type="text" id="taskInput" placeholder="Enter your task here...">
+      <button onclick="addTask()">Add Task</button>
+    </section>
+
+    <ul id="taskList" class="task-list">
+      <!-- Tasks appear here -->
+    </ul>
+  </div>
+
+
+</body>
+</html>
