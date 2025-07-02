@@ -1,28 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Task Tracker - Login/Signup</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Login | Task Tracker</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar">
-    <h1>Trackit</h1>
-    <div class="nav-links">
-      <a href="#" id="showLogin" class="active">Login</a>
-      <a href="#" id="showSignup">Signup</a>
-    </div>
-  </nav>
-
-  <!-- Login and Signup Forms -->
   <div class="login-container">
-    <h2 id="formTitle">Login to Trackit</h2>
-
+    <h2 id="formTitle">Login to Task Tracker</h2>
     <form id="loginForm">
       <input type="text" id="username" placeholder="Username" required />
       <input type="password" id="password" placeholder="Password" required />
@@ -31,15 +16,13 @@
     </form>
 
     <form id="signupForm">
-      <input type="text" id="newUsername" placeholder="Choose a username" required />
-      <input type="password" id="newPassword" placeholder="Create a password" required />
+      <input type="text" id="newUsername" placeholder="New username" required />
+      <input type="password" id="newPassword" placeholder="Password" required />
       <input type="password" id="confirmPassword" placeholder="Confirm password" required />
       <button type="submit">Sign Up</button>
       <p>Already have an account? <a href="#" id="toLogin">Login</a></p>
     </form>
   </div>
-
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
-
 </html>

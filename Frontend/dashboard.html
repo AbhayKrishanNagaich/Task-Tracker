@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard | Task Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Task Tracker</h2>
+    <ul>
+      <li><a href="#">Dashboard</a></li>
+      <li><a href="#">My Tasks</a></li>
+      <li><a href="#">Completed</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <h1>Dashboard</h1>
+      <button id="addTaskBtn">+ Add Task</button>
+    </div>
+
+    <div id="taskList" class="task-list"></div>
+  </div>
+
+  <!-- Modal -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>Add New Task</h2>
+      <input type="text" id="taskTitle" placeholder="Task Title" required />
+      <input type="date" id="taskDeadline" required />
+      <select id="taskStatus">
+        <option>Not Started</option>
+        <option>In Progress</option>
+        <option>Completed</option>
+      </select>
+      <button id="saveTask">Save Task</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
