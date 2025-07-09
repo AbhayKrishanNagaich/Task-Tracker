@@ -1,20 +1,20 @@
-
+// ==== LOGIN / SIGNUP ====
 const loginForm = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
 
 if (loginForm) {
   loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
 
-    const savedUser = JSON.parse(localStorage.getItem("taskUser"));
+    const storedUser = localStorage.getItem("user");
+    const storedPass = localStorage.getItem("pass");
 
-    if (savedUser && username === savedUser.username && password === savedUser.password) {
-      alert("Login successful!");
+    if (user === storedUser && pass === storedPass) {
       window.location.href = "dashboard.html";
     } else {
-      alert("Invalid login. Try again.");
+      alert("Invalid login");
     }
   });
 
@@ -34,24 +34,73 @@ if (loginForm) {
 if (signupForm) {
   signupForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    const newUsername = document.getElementById("newUsername").value.trim();
-    const newPassword = document.getElementById("newPassword").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const user = document.getElementById("newUsername").value;
+    const pass = document.getElementById("newPassword").value;
+    const confirm = document.getElementById("confirmPassword").value;
 
-    if (newPassword !== confirmPassword) {
+    if (pass !== confirm) {
       alert("Passwords do not match!");
       return;
     }
 
-    localStorage.setItem("taskUser", JSON.stringify({
-      username: newUsername,
-      password: newPassword
-    }));
+    localStorage.setItem("user", user);
+    localStorage.setItem("pass", pass);
+    alert("Account created! Please login.");
 
-    alert("Account created! Now login.");
     signupForm.style.display = "none";
     loginForm.style.display = "block";
     document.getElementById("formTitle").textContent = "Login to Task Tracker";
+  });
+}
+
+// ==== DASHBOARD LOGIC ====
+const TASKS_KEY = "tasks";
+let tasks = JSON.parse(localStorage.getItem(TASKS_KEY)) || [];
+
+function saveTasks() {
+  localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
+}
+
+function renderTasks() {
+  const list = document.getElementById("taskList");
+  if (!list) return;
+
+  list.innerHTML = "";
+  tasks.forEach((task, index) => {
+    const card = document.createElement("div");
+    card.className = "task-card";
+    card.innerHTML = `
+      <h3>${task.title}</h3>
+      <p>Deadline: ${task.deadline}</p>
+      <p>Status: ${task.status}</p>
+      <button class="edit-btn" data-index="${index}">Edit</button>
+      <button class="delete-btn" data-index="${index}">Delete</button>
+    `;
+    list.appendChild(card);
+  });
+
+  document.querySelectorAll(".delete-btn").forEach(btn => {
+    btn.onclick = (e) => {
+      const i = e.target.getAttribute("data-index");
+      if (confirm("Are you sure you want to delete this task?")) {
+        tasks.splice(i, 1);
+        saveTasks();
+        renderTasks();
+      }
+    };
+  });
+
+  document.querySelectorAll(".edit-btn").forEach(btn => {
+    btn.onclick = (e) => {
+      const i = e.target.getAttribute("data-index");
+      const task = tasks[i];
+
+      document.getElementById("taskTitle").value = task.title;
+      document.getElementById("taskDeadline").value = task.deadline;
+      document.getElementById("taskStatus").value = task.status;
+      modal.dataset.editing = i;
+      modal.style.display = "flex";
+    };
   });
 }
 
@@ -59,27 +108,16 @@ const addBtn = document.getElementById("addTaskBtn");
 const modal = document.getElementById("taskModal");
 const close = document.getElementById("closeModal");
 const save = document.getElementById("saveTask");
-const list = document.getElementById("taskList");
-
-function loadTasks() {
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  list.innerHTML = "";
-
-  tasks.forEach((task) => {
-    const card = document.createElement("div");
-    card.className = "task-card";
-    card.innerHTML = `
-      <h3>${task.title}</h3>
-      <p>Deadline: ${task.deadline}</p>
-      <p>Status: ${task.status}</p>
-    `;
-    list.appendChild(card);
-  });
-}
 
 if (addBtn) {
-  loadTasks(); // 
-  addBtn.onclick = () => (modal.style.display = "flex");
+  addBtn.onclick = () => {
+    modal.style.display = "flex";
+    modal.removeAttribute("data-editing");
+    document.getElementById("taskTitle").value = "";
+    document.getElementById("taskDeadline").value = "";
+    document.getElementById("taskStatus").value = "Not Started";
+  };
+
   close.onclick = () => (modal.style.display = "none");
 
   save.onclick = () => {
@@ -88,21 +126,21 @@ if (addBtn) {
     const status = document.getElementById("taskStatus").value;
 
     if (!title || !deadline) {
-      alert("Please enter all fields");
+      alert("Please fill all fields");
       return;
     }
 
-    const newTask = { title, deadline, status };
-    const existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    const editingIndex = modal.dataset.editing;
+    if (editingIndex !== undefined) {
+      tasks[editingIndex] = { title, deadline, status };
+    } else {
+      tasks.push({ title, deadline, status });
+    }
 
-    existingTasks.push(newTask);
-    localStorage.setItem("tasks", JSON.stringify(existingTasks));
-
-    loadTasks(); 
+    saveTasks();
+    renderTasks();
     modal.style.display = "none";
-
-    document.getElementById("taskTitle").value = "";
-    document.getElementById("taskDeadline").value = "";
-    document.getElementById("taskStatus").value = "Not Started";
   };
+
+  renderTasks();
 }
