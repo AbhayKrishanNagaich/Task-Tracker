@@ -142,5 +142,75 @@ if (addBtn) {
     modal.style.display = "none";
   };
 
+
+
+
+// Set username in dashboard
+const usernameDisplay = document.getElementById("usernameDisplay");
+const storedUser = localStorage.getItem("user");
+
+if (usernameDisplay && storedUser) {
+  usernameDisplay.textContent = storedUser;
+}
+
+// Logout button
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.onclick = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("pass");
+    window.location.href = "index.html";
+  };
+}
+
+
+
+const filterSelect = document.getElementById("filterStatus");
+
+function renderTasks(filter = "All") {
+  const list = document.getElementById("taskList");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  tasks.forEach((task, index) => {
+    if (filter !== "All" && task.status !== filter) return;
+
+    const card = document.createElement("div");
+    card.className = "task-card";
+    card.innerHTML = `
+      <h3>${task.title}</h3>
+      <p>Deadline: ${task.deadline}</p>
+      <p>Status: ${task.status}</p>
+      <button class="edit-btn" data-index="${index}">Edit</button>
+      <button class="delete-btn" data-index="${index}">Delete</button>
+    `;
+    list.appendChild(card);
+  });
+
+  // Delete & edit button logic remains same...
+}
+
+if (filterSelect) {
+  filterSelect.onchange = () => {
+    const selected = filterSelect.value;
+    renderTasks(selected);
+  };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   renderTasks();
 }

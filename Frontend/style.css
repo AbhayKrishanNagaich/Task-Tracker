@@ -247,3 +247,20 @@ body.login-page {
 .task-card .delete-btn:hover {
   background-color: #c0392b;
 }
+
+.top-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#filterStatus {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+.logo img {
+  width: 120px;
+  margin-bottom: 20px;
+}

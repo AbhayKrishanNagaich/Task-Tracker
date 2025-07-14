@@ -7,19 +7,29 @@
 </head>
 <body>
   <div class="sidebar">
-    <img src="images/logo.png" alt="Logo" class="logo" />
-    <h2>Track it</h2>
+    <div class="logo">
+      <img src="images/logo.png" alt=" trackit logo" srcset="">
+</div>
     <ul>
       <li><a href="#">Dashboard</a></li>
       <li><a href="#">My Tasks</a></li>
       <li><a href="#">Completed</a></li>
+      <li><a href="#" id="logoutBtn">Logout</a></li>
     </ul>
   </div>
 
   <div class="main-content">
     <div class="top-bar">
-      <h1>Dashboard</h1>
-      <button id="addTaskBtn">+ Add Task</button>
+      <h1>Welcome, <span id="usernameDisplay">User</span>!</h1>
+      <div class="top-controls">
+        <select id="filterStatus">
+          <option value="All">All</option>
+          <option value="Not Started">Not Started</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <button id="addTaskBtn">+ Add Task</button>
+      </div>
     </div>
 
     <div id="taskList" class="task-list"></div>
@@ -29,7 +39,7 @@
   <div id="taskModal" class="modal">
     <div class="modal-content">
       <span class="close" id="closeModal">&times;</span>
-      <h2>Add New Task</h2>
+      <h2>Add/Edit Task</h2>
       <input type="text" id="taskTitle" placeholder="Task Title" required />
       <input type="date" id="taskDeadline" required />
       <select id="taskStatus">
